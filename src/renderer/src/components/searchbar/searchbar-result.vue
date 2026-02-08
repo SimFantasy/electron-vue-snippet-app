@@ -11,24 +11,32 @@ const { searchResults, searchResultId, handleSelectedItem } = useSelect()
 <template>
   <section
     :class="
-      cn('flex-1 px-2.5 pb-2.5 h-fit overflow-hidden', {
-        hidden: !searchResults || searchResults.length === 0
-      })
+      cn(
+        'flex-1 px-2.5 pb-2.5 h-full bg-card/90 backdrop-blur-xs rounded-b-lg overflow-hidden nodrag',
+        {
+          hidden: !searchResults || searchResults.length === 0
+        }
+      )
     "
   >
-    <div class="px-2 py-1.5 bg-card rounded-lg overflow-y-auto">
-      <template v-for="item in searchResults" :key="item.id">
-        <div
-          :class="
-            cn('flex-x-1 px-2 py-1.5 rounded-sm text-stone-600 truncate hover:bg-stone-100', {
-              'bg-emerald-100': item.id === searchResultId
-            })
-          "
-          @click="handleSelectedItem(item.id)"
-        >
-          {{ item.title }}
-        </div>
-      </template>
+    <div class="px-2 py-1.5 w-full h-full bg-card rounded-lg overflow-y-auto">
+      <div class="flex-y-1 h-fit">
+        <template v-for="item in searchResults" :key="item.id">
+          <div
+            :class="
+              cn(
+                'flex-x-1 px-2 py-1.5 rounded-sm text-stone-600 truncate trans-colors hover:bg-stone-200 cursor-pointer',
+                {
+                  'bg-emerald-100': item.id === searchResultId
+                }
+              )
+            "
+            @click="handleSelectedItem(item.id)"
+          >
+            {{ item.title }}
+          </div>
+        </template>
+      </div>
     </div>
   </section>
 </template>

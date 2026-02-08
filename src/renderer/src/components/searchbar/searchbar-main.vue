@@ -1,10 +1,12 @@
 <script lang="ts" setup name="SearchbarMain">
-import { useSearch } from '@/composables'
+import { useSearch, useSelect } from '@/composables'
+import { cn } from '@/utils'
 
 /**
  * Hooks
  */
 const { searchKeyword } = useSearch()
+const { searchResults } = useSelect()
 
 /**
  * Actions
@@ -16,9 +18,16 @@ const handleOpenManageWindow = () => {
 
 <template>
   <div
-    class="flex-center gap-2 p-2 pl-1 w-full h-fit border border-border/80 bg-card/90 backdrop-blur-xs rounded-md shadow-xl shadow-stone-500/10"
+    :class="
+      cn(
+        'flex-center gap-2 p-2 pl-1 w-full h-fit border border-border/80 bg-card/90 backdrop-blur-xs rounded-lg shadow-xl shadow-stone-500/10',
+        {
+          'rounded-b-none': searchResults && searchResults.length !== 0
+        }
+      )
+    "
   >
-    <span class="w-fit h-full">
+    <span class="flex-start w-fit h-full">
       <UIcon name="tabler:grip-vertical" class="text-stone-300" />
     </span>
     <UInput
@@ -29,7 +38,7 @@ const handleOpenManageWindow = () => {
       class="w-full"
       autofocus
       :ui="{
-        base: 'ring-stone-200 focus-visible:ring-1! focus-visible:ring-stone-300 focus-visible:bg-stone-100'
+        base: 'ring-stone-300 focus-visible:ring-1! focus-visible:ring-stone-400 focus-visible:bg-stone-100'
       }"
     />
 

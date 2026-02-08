@@ -9,7 +9,7 @@ export const options: CustomWindowOptions = {
     id: 0,
     options: {
       initShow: true,
-      openDevTools: true
+      openDevTools: false
       // hash: ''
     }
   },
@@ -20,8 +20,8 @@ export const options: CustomWindowOptions = {
       openDevTools: true,
       width: 1280,
       height: 800,
-      frame: true,
-      transparent: false,
+      // frame: true,
+      // transparent: false,
       hash: '/#/manage/code-list'
     }
   },

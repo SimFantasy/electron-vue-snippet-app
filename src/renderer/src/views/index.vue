@@ -42,12 +42,12 @@ onMounted(() => {
 </script>
 
 <template>
-  <main ref="mainEl" class="flex-y drag">
+  <main ref="mainEl" class="group flex-y h-full drag">
     <SearchbarMain />
 
     <SearchbarResult />
 
-    <SearchbarError />
+    <!-- <SearchbarError /> -->
   </main>
 </template>
 

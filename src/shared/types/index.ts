@@ -18,7 +18,7 @@ export type ColorModeType = 'light' | 'dark' | 'system'
 
 // 分类表结构
 export interface Category {
-  id: number
+  id: number | null
   name: string
   created_at: Date | string
   updated_at: Date | string

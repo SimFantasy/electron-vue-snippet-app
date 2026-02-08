@@ -15,7 +15,7 @@ ipcMain.on(IPC_KEYS.OPEN_WINDOW, (_evetn: IpcMainEvent, name: WindowNameType) =>
 
 // 关闭指定窗口
 ipcMain.on(IPC_KEYS.CLOSE_WINDOW, (_event: IpcMainEvent, name: WindowNameType) => {
-  getWindowByName(name).close()
+  getWindowByName(name).hide()
 })
 
 // 鼠标穿透
@@ -69,7 +69,7 @@ ipcMain.on(IPC_KEYS.WINDOW_RESTORE, (event: IpcMainEvent) => {
 // 关闭当前窗口
 ipcMain.on(IPC_KEYS.WINDOW_CLOSE, (event: IpcMainEvent) => {
   const win = getWindowByEvent(event)
-  if (win) win.close()
+  if (win) win.hide()
 })
 
 // 设置窗口置顶
