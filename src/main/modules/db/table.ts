@@ -28,6 +28,7 @@ export async function initTables(): Promise<void> {
       table.text('content').notNullable().comment('代码内容')
       table.json('tags').defaultTo('[]').comment('代码标签，JSON数组格式')
       table.integer('category_id').defaultTo(0).comment('分类ID，0表示未分类')
+      table.string('language').defaultTo('javascript').comment('代码语言类型')
       table.timestamp('created_at').defaultTo(db.fn.now()).comment('创建时间')
       table.timestamp('updated_at').defaultTo(db.fn.now()).comment('更新时间')
 
@@ -36,6 +37,15 @@ export async function initTables(): Promise<void> {
       table.index('created_at', 'idx_codes_created_at')
     })
     console.log('codes表创建成功')
+  } else {
+    // Migration: 检查并添加 language 字段
+    const hasLanguageColumn = await db.schema.hasColumn('codes', 'language')
+    if (!hasLanguageColumn) {
+      await db.schema.table('codes', (table) => {
+        table.string('language').defaultTo('javascript').comment('代码语言类型')
+      })
+      console.log('codes表添加 language 字段成功')
+    }
   }
 }
 

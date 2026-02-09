@@ -9,7 +9,7 @@ const keyword = defineModel<string>('keyword')
 
 <template>
   <div
-    class="flex-x-2 px-2 py-1.5 w-full h-fit rounded-t-lg border-b border-stone-500/20 bg-card/40"
+    class="flex-x-2 px-2 py-1.5 w-full h-12 rounded-t-lg border-b border-stone-500/20 bg-card/40"
   >
     <UInput
       type="text"

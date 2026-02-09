@@ -115,6 +115,7 @@ export async function createCode(data: CreateCodeInput): Promise<number> {
     content: data.content,
     tags,
     category_id: data.category_id || 0,
+    language: data.language || 'javascript',
     created_at: new Date(),
     updated_at: new Date()
   })
@@ -135,6 +136,7 @@ export async function updateCode(id: number, data: UpdateCodeInput): Promise<num
   if (data.title !== undefined) updateData.title = data.title
   if (data.content !== undefined) updateData.content = data.content
   if (data.category_id !== undefined) updateData.category_id = data.category_id
+  if (data.language !== undefined) updateData.language = data.language
   if (data.tags !== undefined) {
     updateData.tags = Array.isArray(data.tags) ? JSON.stringify(data.tags) : data.tags
   }

@@ -22,7 +22,7 @@ const api = {
   setIgnoreMouseEvents: (ignore: boolean, options?: { forward: boolean }) =>
     ipcRenderer.send(IPC_KEYS.IGNORE_MOUSE_EVENT, ignore, options),
   /** 快捷键 */
-  shortcut: (shortcut: string) => ipcRenderer.send(IPC_KEYS.SHORTCUT, shortcut),
+  shortcut: (shortcut: string) => ipcRenderer.invoke(IPC_KEYS.SHORTCUT, shortcut),
   /** 设置更新全局广播 */
   onSettingsUpdated: (callback: (settings: any) => void) =>
     ipcRenderer.on(IPC_KEYS.SETTINGS_UPDATED, (_event, settings) => callback(settings)),

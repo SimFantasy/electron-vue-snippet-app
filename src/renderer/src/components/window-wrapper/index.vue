@@ -14,7 +14,8 @@ defineProps<{
 /**
  * Hooks
  */
-const { isMaximized, handleWindowToggle, handleWindowMinimize } = useWindowControl()
+const { isMaximized, handleWindowToggle, handleWindowMinimize, handleWindowCloseCurrent } =
+  useWindowControl()
 </script>
 
 <template>
@@ -26,6 +27,8 @@ const { isMaximized, handleWindowToggle, handleWindowMinimize } = useWindowContr
       <div class="flex-1 flex-x-2 text-sm text-stone-800 font-semibold drag">{{ title }}</div>
 
       <div class="flex-end gap-2">
+        <UButton icon="tabler:settings-2" variant="ghost" color="neutral" />
+
         <UButton
           icon="tabler:minus"
           variant="ghost"
@@ -38,14 +41,20 @@ const { isMaximized, handleWindowToggle, handleWindowMinimize } = useWindowContr
           color="neutral"
           @click="handleWindowToggle"
         />
-        <UButton icon="tabler:x" variant="ghost" color="neutral" @click="handleWindowMinimize" />
+        <UButton
+          icon="tabler:x"
+          variant="ghost"
+          color="neutral"
+          @click="handleWindowCloseCurrent"
+        />
       </div>
     </header>
 
     <!-- Container -->
-    <section class="flex-1 p-2 pt-0 w-full rounded-lg overflow-hidden">
+    <slot />
+    <!-- <section class="flex-1 p-2 pt-0 w-full h-full rounded-lg overflow-hidden">
       <slot />
-    </section>
+    </section> -->
 
     <!-- Loading -->
     <div
@@ -58,7 +67,7 @@ const { isMaximized, handleWindowToggle, handleWindowMinimize } = useWindowContr
     <!-- Background -->
     <div class="absolute inset-0 -z-1 size-full">
       <!-- Background Overlay -->
-      <div class="absolute inset-0 z-10 size-full bg-stone-100"></div>
+      <div class="absolute inset-0 z-10 size-full bg-stone-50"></div>
       <!-- Background Image -->
       <!-- <img :src="bgImage" class="size-full object-cover" /> -->
     </div>

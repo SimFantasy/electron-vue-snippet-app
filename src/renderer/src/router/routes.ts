@@ -12,6 +12,7 @@ export const routes = [
     name: 'Manage',
     component: () => import('@/views/manage.vue'),
     meta: { title: '代码管理' },
+    redirect: { name: 'CodeList', params: {} },
     children: [
       {
         path: '',
@@ -25,6 +26,11 @@ export const routes = [
         component: () => import('@/views/code-list.vue'),
         meta: { title: '代码列表' },
         children: [
+          {
+            path: '',
+            name: 'CodeBlank',
+            component: () => import('@/views/code-blank.vue')
+          },
           {
             path: 'code-detail/:id',
             name: 'CodeDetail',

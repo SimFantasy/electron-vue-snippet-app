@@ -6,7 +6,7 @@ import { useAppStore } from '@/stores'
  * Hooks
  */
 const { setIgnoreMouseEvents } = useIgnoreMouseEvents()
-const { appSettings } = useAppStore()
+const appStore = useAppStore()
 
 /**
  * States
@@ -18,7 +18,7 @@ const mainRef = useTemplateRef('mainEl')
  */
 // 侦听快捷键设置，如果设置了快捷键，则调用 api.shortcut
 watch(
-  () => appSettings.shortcut,
+  () => appStore.appSettings.shortcut,
   (val) => {
     if (val && val.trim() !== '') {
       window.api.shortcut(val)
@@ -30,11 +30,18 @@ watch(
  * Lifecycles
  */
 onMounted(() => {
-  // 鼠标穿透事件处理
-  setIgnoreMouseEvents(mainRef as ShallowRef<HTMLElement>)
+  // 注册快捷键
+  if (appStore.appSettings.shortcut) {
+    window.api.shortcut(appStore.appSettings.shortcut)
+  }
 
   // 设置数据库路径
-  window.api.dbSetPath(appSettings.databasePath)
+  if (appStore.appSettings.databasePath) {
+    window.api.dbSetPath(appStore.appSettings.databasePath)
+  }
+
+  // 鼠标穿透事件处理
+  setIgnoreMouseEvents(mainRef as ShallowRef<HTMLElement>)
 
   // 初始化数据库表
   window.api.dbInit()

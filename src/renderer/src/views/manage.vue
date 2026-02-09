@@ -15,8 +15,8 @@ provideLocal('categories', state)
 
 <template>
   <WindowWrapper title="代码片段管理" :loading="isLoading">
-    <div class="size-full grid grid-cols-5 gap-2">
-      <div class="col-span-1 flex-y w-full h-full border border-stone-300 bg-stone-100 rounded-md">
+    <div class="flex-1 grid grid-cols-5 gap-2 p-2 w-full h-[calc(100vh-var(--spacing)*16)]">
+      <div class="col-span-1 flex-y w-full h-full border border-stone-300 bg-card rounded-md">
         <CategoryQuickNavs />
 
         <div class="flex-1 p-2 h-full overflow-y-auto">

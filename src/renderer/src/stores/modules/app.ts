@@ -26,9 +26,24 @@ export const useAppStore = defineStore(
 
     // 代码编辑器设置
     const codeEditorSettings = ref<CodeEditorSettings>({
-      codeEditorTheme: 'one-dark',
-      codeEditorFontSize: 16,
-      codeEditorFontFamily: 'Fira Code'
+      codeEditorTheme: 'github-light',
+      codeEditorFontSize: 14,
+      codeEditorFontFamily: 'Fira Code',
+      codeLanguages: [
+        'javascript',
+        'typescript',
+        'json',
+        'html',
+        'css',
+        'python',
+        'go',
+        'rust',
+        'java',
+        'bash',
+        'yaml',
+        'markdown'
+      ],
+      defaultLanguage: 'javascript'
     })
 
     // 应用设置

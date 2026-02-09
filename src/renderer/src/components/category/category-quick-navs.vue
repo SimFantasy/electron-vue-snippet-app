@@ -21,6 +21,7 @@ const quickNavs = ref<(Category & { icon: string })[]>([
 
 <template>
   <div class="flex-y-1 p-2 border-b border-stone-500/20">
+    <div class="text-xs text-stone-300">快捷操作</div>
     <div class="flex-y-1">
       <CategoryItem
         v-for="(nav, index) in quickNavs"

@@ -1,24 +1,22 @@
 import { useSearchStore } from '@/stores'
-import { watch, ref } from 'vue'
 
 export function useSearch() {
   /**
    * Hooks
    */
   const searchStore = useSearchStore()
+  const { searchKeyword } = storeToRefs(searchStore)
 
   /**
    * States
    */
-  const searchKeyword = ref('')
+  // const searchKeyword = ref('')
 
   /**
    * Actions
    */
   const handleSearch = async (value: string) => {
     searchStore.setSearchKeyword(value)
-
-    console.log('value', value)
 
     // 关键词为空时，清空结果
     if (!value || value.trim() === '') {
