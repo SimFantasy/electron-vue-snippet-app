@@ -15,6 +15,8 @@ const { codes, loading: isLoading } = storeToRefs(codesStore)
  * States
  */
 const snippetSearchKeyword = ref('')
+// 标记是否已经自动选择过，避免重复跳转
+const hasAutoSelected = ref(false)
 
 /**
  * Watchers
@@ -24,25 +26,22 @@ const snippetSearchKeyword = ref('')
 watch(
   () => [route.params.cid, snippetSearchKeyword.value],
   async ([cid, keyword]) => {
-    if (cid) {
-      // 当只有cid时，传入categoryId参数
-      await codesStore.fetchCodes({ categoryId: Number(cid) })
-    } else if (cid && keyword) {
-      // 当有cid和keyword时，传入categoryId和search参数
+    if (cid && keyword) {
+      // 当有cid和keyword时
       await codesStore.fetchCodes({ categoryId: Number(cid), search: keyword as string })
-    } else if (!cid && keyword) {
-      // 当只有keyword时，传入search参数
+    } else if (cid) {
+      // 当只有cid时
+      await codesStore.fetchCodes({ categoryId: Number(cid) })
+    } else if (keyword) {
+      // 当只有keyword时
       await codesStore.fetchCodes({ search: keyword as string })
     } else {
-      // 当没有参数时，执行默认的getCodes方法
+      // 当没有参数时
       await codesStore.fetchCodes()
     }
   },
   { immediate: true }
 )
-
-// 标记是否已经自动选择过，避免重复跳转
-const hasAutoSelected = ref(false)
 
 // 当分类改变时，自动选择第一个代码片段
 watch(
@@ -83,7 +82,10 @@ watch(
       <SnippetList :codes="codes" :loading="isLoading" />
     </div>
 
-    <RouterView />
+    <div class="col-span-3">
+      <CodeBlank v-if="!route.params.id" />
+      <RouterView v-else />
+    </div>
     <!-- <div class="col-span-3">
       <RouterView />
     </div> -->

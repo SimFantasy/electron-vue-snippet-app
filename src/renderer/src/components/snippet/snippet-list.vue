@@ -23,7 +23,7 @@ defineProps<{
       v-if="!loading && codes?.length === 0"
       class="flex flex-col items-center justify-center h-full text-stone-400"
     >
-      <UIcon name="tabler:code-off" class="size-12 mb-2" />
+      <UIcon name="tabler:code-plus" class="size-12 mb-2" />
       <span class="text-sm">请添加代码片段</span>
     </div>
   </div>

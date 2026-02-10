@@ -14,7 +14,7 @@ export const createCategory = async (data: CreateCategoryInput) => {
 }
 
 // 更新分类
-export const updateCategory = async (id: number, data: Partial<CreateCategoryInput>) => {
+export const updateCategory = async (id: number, data: CreateCategoryInput) => {
   return await window.api.categoryUpdate(id, data)
 }
 

@@ -1,33 +1,25 @@
 <script lang="ts" setup name="CategoryList">
-import { Category } from '@shared/types'
+import { useCategory } from '@/composables'
 
 /**
- * Defines
+ * Hooks
  */
-
-// Props
-defineProps<{
-  categories: Category[] | null
-  loading: boolean
-}>()
+const { categories } = useCategory()
 </script>
 
 <template>
-  <div class="flex-y-1">
-    <div class="flex-x-2 justify-between">
-      <span class="text-xs text-stone-300">分类列表</span>
-
-      <UTooltip text="添加分类">
-        <UButton icon="tabler:folder-plus" size="sm" variant="link" />
-      </UTooltip>
+  <div class="h-[calc(100vh-var(--spacing)*52)] overflow-y-auto">
+    <div class="flex-y-1 p-2">
+      <template
+        v-if="categories && categories.length"
+        v-for="(item, index) in categories"
+        :key="index"
+      >
+        <CategoryContextMenu :category="item">
+          <CategoryItem :category="item" />
+        </CategoryContextMenu>
+      </template>
     </div>
-
-    <CategoryItem
-      v-if="categories && categories.length"
-      v-for="(item, index) in categories"
-      :key="index"
-      :category="item"
-    />
   </div>
 </template>
 

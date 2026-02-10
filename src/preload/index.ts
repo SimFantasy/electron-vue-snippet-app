@@ -63,7 +63,7 @@ const api = {
   categoryCreate: (data: CreateCategoryInput) => ipcRenderer.invoke(IPC_KEYS.CATEGORY_CREATE, data),
   /** 更新分类 */
   categoryUpdate: (id: number, data: UpdateCategoryInput) =>
-    ipcRenderer.invoke(IPC_KEYS.CATEGORY_UPDATE, id, data),
+    ipcRenderer.invoke(IPC_KEYS.CATEGORY_UPDATE, { id, data }),
   /** 删除分类 */
   categoryDelete: (id: number) => ipcRenderer.invoke(IPC_KEYS.CATEGORY_DELETE, id),
 
@@ -76,14 +76,14 @@ const api = {
   codeCreate: (data: CreateCodeInput) => ipcRenderer.invoke(IPC_KEYS.CODE_CREATE, data),
   /** 更新代码片段 */
   codeUpdate: (id: number, data: UpdateCodeInput) =>
-    ipcRenderer.invoke(IPC_KEYS.CODE_UPDATE, id, data),
+    ipcRenderer.invoke(IPC_KEYS.CODE_UPDATE, { id, data }),
   /** 删除代码片段 */
   codeDelete: (id: number) => ipcRenderer.invoke(IPC_KEYS.CODE_DELETE, id),
   /** 批量删除代码片段 */
   codeBatchDelete: (ids: number[]) => ipcRenderer.invoke(IPC_KEYS.CODE_BATCH_DELETE, ids),
   /** 搜索代码片段 */
   codeSearch: (keyword: string, categoryId?: number) =>
-    ipcRenderer.invoke(IPC_KEYS.CODE_SEARCH, keyword, categoryId),
+    ipcRenderer.invoke(IPC_KEYS.CODE_SEARCH, { keyword, categoryId }),
   /** 获取代码片段数量 */
   codeGetCount: (categoryId?: number) => ipcRenderer.invoke(IPC_KEYS.CODE_GET_COUNT, categoryId)
 }

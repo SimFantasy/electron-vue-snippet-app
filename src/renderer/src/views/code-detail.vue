@@ -1,19 +1,15 @@
 <script lang="ts" setup name="CodeDetail">
-import type { Category } from '@shared/types'
-import { injectLocal } from '@vueuse/core'
-import { useCodeEditor } from '@/composables'
+import { useCodeUpdate } from '@/composables'
 import CodeEditor from '@/components/code-editor/CodeEditor.vue'
 import { languageOptions } from '@/components/code-editor/language-config'
-
-/**
- * Injects
- */
-const categories = injectLocal<Ref<Category[]>>('categories')
+import { useCategoryStore } from '@/stores'
 
 /**
  * Hooks
  */
-const { title, category, tags, content, language } = useCodeEditor()
+const manageStore = useCategoryStore()
+const { categories } = storeToRefs(manageStore)
+const { title, category, tags, content, language } = useCodeUpdate()
 
 /**
  * Getters
@@ -28,10 +24,10 @@ const categoryItems = computed(() => {
 </script>
 
 <template>
-  <UForm class="col-span-3 flex-y w-full border border-stone-300 bg-white rounded-md">
+  <UForm class="flex-y w-full border border-stone-300 bg-white rounded-md">
     <!-- Titlebar -->
     <div class="flex-x-2 px-2 w-full h-12 border-b border-border">
-      <UInput v-model="title" variant="none" class="flex-1 w-full" />
+      <UInput v-model="title" variant="none" class="flex-1 w-full" :ui="{ base: 'text-lg' }" />
 
       <USeparator orientation="vertical" />
 
@@ -45,7 +41,15 @@ const categoryItems = computed(() => {
     </div>
     <!-- Tags -->
     <div class="flex-start px-2 h-12 border-b border-border">
-      <UInputTags v-model="tags" variant="none" size="xl" class="w-full" />
+      <UInputTags
+        v-model="tags"
+        variant="none"
+        icon="tabler:tags"
+        size="xl"
+        placeholder="输入标签后回车以进行添加"
+        class="w-full"
+        :ui="{ item: 'font-normal' }"
+      />
     </div>
     <!-- Code Editor -->
     <div class="flex-1 relative w-full overflow-hidden">
@@ -64,9 +68,9 @@ const categoryItems = computed(() => {
         />
       </div>
       <!-- Code Editor -->
-      <div class="p-2 size-full">
-        <div class="size-full rounded-lg overflow-hidden">
-          <CodeEditor v-model="content" :language="language" class="h-full" />
+      <div class="p-2 w-full h-[calc(100vh-var(--spacing)*40)] overflow-y-auto">
+        <div class="h-full rounded-lg overflow-hidden">
+          <CodeEditor v-model="content" :language="language" class="h-fit" />
         </div>
       </div>
     </div>

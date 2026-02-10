@@ -93,7 +93,7 @@ export function initDatabaseIPC(): void {
   // 更新分类
   ipcMain.handle(
     IPC_KEYS.CATEGORY_UPDATE,
-    async (_event, id: number, data: UpdateCategoryInput): Promise<number> => {
+    async (_event, { id, data }: { id: number; data: UpdateCategoryInput }): Promise<number> => {
       return await query.updateCategory(id, data)
     }
   )
@@ -123,7 +123,7 @@ export function initDatabaseIPC(): void {
   // 更新代码片段
   ipcMain.handle(
     IPC_KEYS.CODE_UPDATE,
-    async (_event, id: number, data: UpdateCodeInput): Promise<number> => {
+    async (_event, { id, data }: { id: number; data: UpdateCodeInput }): Promise<number> => {
       return await query.updateCode(id, data)
     }
   )
@@ -141,7 +141,10 @@ export function initDatabaseIPC(): void {
   // 搜索代码片段
   ipcMain.handle(
     IPC_KEYS.CODE_SEARCH,
-    async (_event, keyword: string, categoryId?: number): Promise<Code[]> => {
+    async (
+      _event,
+      { keyword, categoryId }: { keyword: string; categoryId?: number }
+    ): Promise<Code[]> => {
       return await query.searchCodes(keyword, categoryId)
     }
   )
