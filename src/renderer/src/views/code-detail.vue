@@ -1,24 +1,23 @@
 <script lang="ts" setup name="CodeDetail">
-import { useCodeUpdate } from '@/composables'
-import CodeEditor from '@/components/code-editor/CodeEditor.vue'
+import { useSnippet, useCategory } from '@/composables'
 import { languageOptions } from '@/components/code-editor/language-config'
-import { useCategoryStore } from '@/stores'
 
 /**
  * Hooks
  */
-const manageStore = useCategoryStore()
-const { categories } = storeToRefs(manageStore)
-const { title, category, tags, content, language } = useCodeUpdate()
+const { categories } = useCategory()
+const { snippetForm } = useSnippet()
 
 /**
  * Getters
  */
+// 分类选项列表
 const categoryItems = computed(() => {
-  const categoryList = categories?.value?.map((category) => ({
+  const categoryList = categories.value?.map((category) => ({
     label: category.name,
     value: category.id
   }))
+
   return [{ label: '未命名', value: 0 }, ...(categoryList || [])]
 })
 </script>
@@ -27,12 +26,17 @@ const categoryItems = computed(() => {
   <UForm class="flex-y w-full border border-stone-300 bg-white rounded-md">
     <!-- Titlebar -->
     <div class="flex-x-2 px-2 w-full h-12 border-b border-border">
-      <UInput v-model="title" variant="none" class="flex-1 w-full" :ui="{ base: 'text-lg' }" />
+      <UInput
+        v-model="snippetForm.title"
+        variant="none"
+        class="flex-1 w-full"
+        :ui="{ base: 'text-lg' }"
+      />
 
       <USeparator orientation="vertical" />
 
       <USelect
-        v-model="category"
+        v-model="snippetForm.category_id"
         :items="categoryItems"
         variant="none"
         :ui="{ content: 'min-w-fit' }"
@@ -42,7 +46,7 @@ const categoryItems = computed(() => {
     <!-- Tags -->
     <div class="flex-start px-2 h-12 border-b border-border">
       <UInputTags
-        v-model="tags"
+        v-model="snippetForm.tags as string[]"
         variant="none"
         icon="tabler:tags"
         size="xl"
@@ -56,7 +60,7 @@ const categoryItems = computed(() => {
       <!-- Language Selector -->
       <div class="absolute top-4 right-4 z-10">
         <USelect
-          v-model="language"
+          v-model="snippetForm.language"
           :items="languageOptions"
           variant="none"
           size="sm"
@@ -70,7 +74,11 @@ const categoryItems = computed(() => {
       <!-- Code Editor -->
       <div class="p-2 w-full h-[calc(100vh-var(--spacing)*40)] overflow-y-auto">
         <div class="h-full rounded-lg overflow-hidden">
-          <CodeEditor v-model="content" :language="language" class="h-fit" />
+          <CodeEditor
+            v-model="snippetForm.content as string"
+            :language="snippetForm.language"
+            class="h-fit"
+          />
         </div>
       </div>
     </div>

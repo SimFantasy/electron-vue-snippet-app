@@ -20,6 +20,7 @@ declare global {
       closeWindow: (name: WindowNameType) => void
       shortcut: (shortcut: string) => Promise<void>
       setIgnoreMouseEvents: (ignore: boolean, options?: { forward: boolean }) => void
+      broadcastSettings: (settings: any) => void
       onSettingsUpdated: (callback: (settings: any) => void) => void
       setColorMode: (colorMode: ColorModeType) => void
 

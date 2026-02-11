@@ -18,7 +18,7 @@ const mainRef = useTemplateRef('mainEl')
  */
 // 侦听快捷键设置，如果设置了快捷键，则调用 api.shortcut
 watch(
-  () => appStore.appSettings.shortcut,
+  () => appStore.shortcut,
   (val) => {
     if (val && val.trim() !== '') {
       window.api.shortcut(val)
@@ -31,13 +31,13 @@ watch(
  */
 onMounted(() => {
   // 注册快捷键
-  if (appStore.appSettings.shortcut) {
-    window.api.shortcut(appStore.appSettings.shortcut)
+  if (appStore.shortcut) {
+    window.api.shortcut(appStore.shortcut)
   }
 
   // 设置数据库路径
-  if (appStore.appSettings.databasePath) {
-    window.api.dbSetPath(appStore.appSettings.databasePath)
+  if (appStore.databasePath) {
+    window.api.dbSetPath(appStore.databasePath)
   }
 
   // 鼠标穿透事件处理

@@ -17,7 +17,7 @@ export const options: CustomWindowOptions = {
     id: 0,
     options: {
       initShow: false,
-      openDevTools: true,
+      openDevTools: false,
       width: 1280,
       height: 800,
       // frame: true,
@@ -29,12 +29,12 @@ export const options: CustomWindowOptions = {
     id: 0,
     options: {
       initShow: false,
-      openDevTools: false,
+      openDevTools: true,
       width: 800,
       height: 600,
-      frame: true,
-      transparent: false,
-      hash: '/#/manage'
+      // frame: true,
+      // transparent: false,
+      hash: '/#/settings'
     }
   }
 }

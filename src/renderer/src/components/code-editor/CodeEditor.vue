@@ -31,7 +31,7 @@ const emit = defineEmits<{
  * Hooks
  */
 const appStore = useAppStore()
-const { codeEditorSettings } = storeToRefs(appStore)
+const { codeEditorTheme, codeEditorFontSize, codeEditorFontFamily } = storeToRefs(appStore)
 
 /**
  * Refs
@@ -49,15 +49,13 @@ const editableConf = new Compartment()
 const currentLanguage = computed(() => props.language || defaultLanguage)
 
 // 当前主题
-const currentTheme = computed(() => codeEditorSettings.value?.codeEditorTheme || defaultTheme)
+const currentTheme = computed(() => codeEditorTheme.value || defaultTheme)
 
 // 当前字体
-const currentFont = computed(() => codeEditorSettings.value?.codeEditorFontFamily || defaultFont)
+const currentFont = computed(() => codeEditorFontFamily.value || defaultFont)
 
 // 当前字号
-const currentFontSize = computed(
-  () => codeEditorSettings.value?.codeEditorFontSize || defaultFontSize
-)
+const currentFontSize = computed(() => codeEditorFontSize.value || defaultFontSize)
 
 /**
  * Actions
@@ -138,9 +136,11 @@ const updateLanguage = async () => {
 
 // 更新主题
 const updateTheme = async () => {
+  console.log('updateTheme called, theme:', currentTheme.value) // 加这行调试
   if (!editorView.value) return
 
   const theme = await loadTheme(currentTheme.value)
+
   editorView.value.dispatch({
     effects: themeConf.reconfigure(theme || [])
   })
@@ -185,6 +185,22 @@ watch(() => props.modelValue, updateContent)
  */
 onMounted(() => {
   createEditor()
+
+  // 监听设置窗口的设置更新
+  window.api.onSettingsUpdated((settings: any) => {
+    if (settings.codeEditorTheme && settings.codeEditorTheme !== codeEditorTheme.value) {
+      codeEditorTheme.value = settings.codeEditorTheme
+    }
+    if (settings.codeEditorFontSize && settings.codeEditorFontSize !== codeEditorFontSize.value) {
+      codeEditorFontSize.value = settings.codeEditorFontSize
+    }
+    if (
+      settings.codeEditorFontFamily &&
+      settings.codeEditorFontFamily !== codeEditorFontFamily.value
+    ) {
+      codeEditorFontFamily.value = settings.codeEditorFontFamily
+    }
+  })
 })
 
 onUnmounted(() => {

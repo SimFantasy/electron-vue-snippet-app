@@ -16,7 +16,11 @@ defineProps<{
   <div
     class="flex-1 flex-y-1 p-2 w-full h-full max-h-[calc(100vh-var(--spacing)*29)] overflow-y-auto"
   >
-    <SnippetItem v-for="item in codes" :key="item.id" :code="item" />
+    <template v-for="item in codes" :key="item.id">
+      <SnippetContextMenu :code="item">
+        <SnippetItem :code="item" />
+      </SnippetContextMenu>
+    </template>
 
     <!-- 空状态提示 -->
     <div

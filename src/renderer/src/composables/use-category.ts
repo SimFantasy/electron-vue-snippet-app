@@ -27,8 +27,7 @@ export function useCategory() {
           toast.add({
             title: '创建成功',
             icon: 'tabler:circle-check',
-            color: 'success',
-            progress: false
+            color: 'success'
           })
           // 刷新分类列表
           handleRefreshCategories()
@@ -49,8 +48,7 @@ export function useCategory() {
           toast.add({
             title: '更新成功',
             icon: 'tabler:circle-check',
-            color: 'success',
-            progress: false
+            color: 'success'
           })
           // 刷新分类列表
           handleRefreshCategories()
@@ -67,8 +65,7 @@ export function useCategory() {
           toast.add({
             title: '删除成功',
             icon: 'tabler:circle-check',
-            color: 'success',
-            progress: false
+            color: 'success'
           })
           // 刷新分类列表
           handleRefreshCategories()

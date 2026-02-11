@@ -16,6 +16,13 @@ defineProps<{
  */
 const { isMaximized, handleWindowToggle, handleWindowMinimize, handleWindowCloseCurrent } =
   useWindowControl()
+
+/**
+ * Actions
+ */
+
+// 打开设置面板
+const handleOpenSettings = () => window.api.openWindow('settings')
 </script>
 
 <template>
@@ -27,7 +34,12 @@ const { isMaximized, handleWindowToggle, handleWindowMinimize, handleWindowClose
       <div class="flex-1 flex-x-2 text-sm text-stone-800 font-semibold drag">{{ title }}</div>
 
       <div class="flex-end gap-2">
-        <UButton icon="tabler:settings-2" variant="ghost" color="neutral" />
+        <UButton
+          icon="tabler:settings-2"
+          variant="ghost"
+          color="neutral"
+          @click="handleOpenSettings"
+        />
 
         <UButton
           icon="tabler:minus"

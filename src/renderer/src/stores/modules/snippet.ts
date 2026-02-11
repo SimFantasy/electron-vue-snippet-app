@@ -1,31 +1,30 @@
+import type { Code } from '@shared/types'
 import { useAsyncState } from '@vueuse/core'
 import { getCodes } from '@/services/api'
 
 export const useSnippetStore = defineStore('snippet', () => {
   /**
-   * Hooks
-   */
-  const route = useRoute()
-
-  /**
-   * Getters
-   */
-  const categoryId = computed(() => (route.params.cid ? Number(route.params.cid) : undefined))
-
-  /**
    * Actions
    */
-  const { state, isLoading, execute, executeImmediate } = useAsyncState(
-    () => getCodes({ categoryId: categoryId.value }),
-    null
-  )
+  // 获取代码片段列表请求
+  // stores/modules/snippet.ts
+  const {
+    state: snippets,
+    isLoading: snippetsLoading,
+    execute: handleFetchSnippets,
+    executeImmediate: handleRefreshSnippets
+  } = useAsyncState(getCodes, [] as Code[])
+
+  // 根据id获取代码片段详情
+  const getSnippetCodeById = (id: number) => snippets.value?.find((item) => item.id === id)
 
   return {
     // States
-    snippetCategoryId: categoryId,
-    snippets: state,
-    snippetsLoading: isLoading,
-    handleFetchSnippets: execute,
-    handleRefreshSnippets: executeImmediate
+    snippets,
+    snippetsLoading,
+    // Actions
+    handleFetchSnippets,
+    handleRefreshSnippets,
+    getSnippetCodeById
   }
 })

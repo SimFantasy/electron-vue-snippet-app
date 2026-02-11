@@ -15,12 +15,6 @@ export const routes = [
     redirect: { name: 'CodeList', params: {} },
     children: [
       {
-        path: '',
-        name: 'Settings',
-        component: () => import('@/views/settings.vue'),
-        meta: { title: '设置' }
-      },
-      {
         path: 'code-list/:cid?',
         name: 'CodeList',
         component: () => import('@/views/code-list.vue'),
@@ -40,5 +34,11 @@ export const routes = [
         ]
       }
     ]
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: () => import('@/views/settings.vue'),
+    meta: { title: '设置' }
   }
 ] satisfies RouteRecordRaw[]

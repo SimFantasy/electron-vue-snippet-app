@@ -1,7 +1,7 @@
 <script lang="ts" setup name="CategoryContextMenu">
-import { useCategory } from '@/composables'
 import type { ContextMenuItem } from '@nuxt/ui'
 import type { Category } from '@shared/types'
+import { useCategory } from '@/composables'
 
 /**
  * Defines
@@ -63,8 +63,10 @@ const handleDeleteCategoryAction = async () => {
     <slot />
   </UContextMenu>
 
+  <!-- 重命名表单 -->
   <CategoryForm ref="updateFormRef" type="update" :category="category" />
 
+  <!-- 删除确认弹窗 -->
   <AlertDialog
     ref="deleteFormRef"
     :loading="categoryDeleteLoading"

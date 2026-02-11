@@ -57,6 +57,7 @@ export async function loadTheme(themeName: string): Promise<Extension | null> {
     return null
   }
   try {
+    console.log('config theme', themeName)
     return await loader()
   } catch (error) {
     console.error(`Failed to load theme "${themeName}":`, error)

@@ -23,7 +23,9 @@ const api = {
     ipcRenderer.send(IPC_KEYS.IGNORE_MOUSE_EVENT, ignore, options),
   /** 快捷键 */
   shortcut: (shortcut: string) => ipcRenderer.invoke(IPC_KEYS.SHORTCUT, shortcut),
-  /** 设置更新全局广播 */
+  /** 发送更新全局广播 */
+  broadcastSettings: (settings: any) => ipcRenderer.send(IPC_KEYS.SETTINGS_UPDATED, settings),
+  /** 接收更新全局广播 */
   onSettingsUpdated: (callback: (settings: any) => void) =>
     ipcRenderer.on(IPC_KEYS.SETTINGS_UPDATED, (_event, settings) => callback(settings)),
   /* 设置颜色模式 */

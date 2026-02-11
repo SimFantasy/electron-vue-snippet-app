@@ -1,5 +1,5 @@
 <script lang="ts" setup name="SnippetSearchbar">
-import { useCodeCreate } from '@/composables'
+import { useSnippet } from '@/composables'
 /**
  * Defines
  */
@@ -10,7 +10,7 @@ const keyword = defineModel<string>('keyword')
 /**
  * Hooks
  */
-const { handleCreateSnippet } = useCodeCreate()
+const { handleSnippetCreate } = useSnippet()
 </script>
 
 <template>
@@ -26,7 +26,7 @@ const { handleCreateSnippet } = useCodeCreate()
       class="flex-1 w-full"
     />
 
-    <UButton icon="tabler:plus" variant="outline" color="neutral" @click="handleCreateSnippet" />
+    <UButton icon="tabler:plus" variant="outline" color="neutral" @click="handleSnippetCreate(0)" />
   </div>
 </template>
 
