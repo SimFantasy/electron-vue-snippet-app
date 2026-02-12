@@ -7,7 +7,7 @@ import { useCategory, useSnippet } from '@/composables'
  * Defines
  */
 // Props
-defineProps<{
+const { code } = defineProps<{
   code: Code
 }>()
 
@@ -15,13 +15,7 @@ defineProps<{
  * Hooks
  */
 const { categories } = useCategory()
-const {
-  currrentCategoryId,
-  currentSnippet,
-  snippetForm,
-  snippetDeleteLoading,
-  handleSnippetDelete
-} = useSnippet()
+const { currrentCategoryId, snippetForm, snippetDeleteLoading, handleSnippetDelete } = useSnippet()
 
 /**
  * States
@@ -61,8 +55,8 @@ const handleDeleteConfirm = () => {
 
 // 删除代码片段
 const handleDeleteSnippet = async () => {
-  if (currentSnippet.value && currentSnippet.value.id) {
-    await handleSnippetDelete(0, currentSnippet.value.id as number)
+  if (code && code.id) {
+    await handleSnippetDelete(0, code.id as number)
   }
 }
 </script>

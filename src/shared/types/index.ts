@@ -73,3 +73,10 @@ export interface QueryOptions {
   limit?: number
   offset?: number
 }
+
+// 背景图片类型
+export interface BackgroundImageInfo {
+  url: string
+  name: string
+  path: string
+}

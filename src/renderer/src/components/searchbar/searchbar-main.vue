@@ -22,7 +22,7 @@ const handleOpenManageWindow = () => {
       cn(
         'flex-center gap-2 p-2 pl-1 w-full h-fit border border-border/80 bg-card/90 backdrop-blur-xs rounded-lg shadow-xl shadow-stone-500/10',
         {
-          'rounded-b-none': searchResults && searchResults.length !== 0
+          'rounded-b-none border-b-0': searchResults && searchResults.length !== 0
         }
       )
     "

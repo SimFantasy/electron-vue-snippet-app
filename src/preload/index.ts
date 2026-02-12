@@ -87,7 +87,13 @@ const api = {
   codeSearch: (keyword: string, categoryId?: number) =>
     ipcRenderer.invoke(IPC_KEYS.CODE_SEARCH, { keyword, categoryId }),
   /** 获取代码片段数量 */
-  codeGetCount: (categoryId?: number) => ipcRenderer.invoke(IPC_KEYS.CODE_GET_COUNT, categoryId)
+  codeGetCount: (categoryId?: number) => ipcRenderer.invoke(IPC_KEYS.CODE_GET_COUNT, categoryId),
+
+  // ========== 背景图片相关 ==========
+  selectBackgroundImage: () => ipcRenderer.invoke(IPC_KEYS.BACKGROUND_SELECT_IMAGE),
+  deleteBackgroundImage: (path: string) =>
+    ipcRenderer.invoke(IPC_KEYS.BACKGROUND_DELETE_IMAGE, path),
+  getBackgroundImage: () => ipcRenderer.invoke(IPC_KEYS.BACKGROUND_GET_IMAGES)
 }
 
 // 使用 `contextBridge` API 将 Electron API 暴露给

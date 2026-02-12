@@ -17,6 +17,31 @@ export const fontOptions = [
   { label: 'Source Code Pro', value: 'Source Code Pro' }
 ]
 
+// 字号选项
+export const fontSizeOptions = [
+  { label: '12px', value: 12 },
+  { label: '13px', value: 13 },
+  { label: '14px', value: 14 },
+  { label: '15px', value: 15 },
+  { label: '16px', value: 16 },
+  { label: '17px', value: 17 },
+  { label: '18px', value: 18 },
+  { label: '19px', value: 19 },
+  { label: '20px', value: 20 },
+  { label: '21px', value: 21 },
+  { label: '22px', value: 22 },
+  { label: '23px', value: 23 },
+  { label: '24px', value: 24 },
+  { label: '25px', value: 25 },
+  { label: '26px', value: 26 },
+  { label: '27px', value: 27 },
+  { label: '28px', value: 28 },
+  { label: '29px', value: 29 },
+  { label: '30px', value: 30 },
+  { label: '31px', value: 31 },
+  { label: '32px', value: 32 }
+]
+
 // 主题加载器映射
 export const themeLoaders: Record<string, () => Promise<Extension>> = {
   'one-dark': async () => {

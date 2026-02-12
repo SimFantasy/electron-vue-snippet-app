@@ -7,6 +7,7 @@ import './modules/ipc'
 import { initDatabaseIPC } from './modules/db/ipc'
 import { initTables, setupCategoryDeleteTrigger } from './modules/db/table'
 import { seedData } from './modules/db/seed'
+import { initProtocol } from './modules/protocol'
 
 // 初始化数据库IPC
 initDatabaseIPC()
@@ -22,6 +23,9 @@ app.whenReady().then(async () => {
   } catch (error) {
     console.error('数据库初始化失败:', error)
   }
+
+  // 先注册协议（在创建窗口之前）
+  initProtocol()
 
   // 创建search窗口
   getWindowByName('search')

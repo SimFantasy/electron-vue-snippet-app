@@ -8,7 +8,8 @@ import type {
   UpdateCategoryInput,
   UpdateCodeInput,
   QueryOptions,
-  ColorModeType
+  ColorModeType,
+  BackgroundImageInfo
 } from '@shared/types'
 
 declare global {
@@ -180,6 +181,11 @@ declare global {
        * @returns 代码片段数量
        */
       codeGetCount: (categoryId?: number) => Promise<number>
+
+      // ========== 背景图片相关 ==========
+      selectBackgroundImage: () => Promise<BackgroundImageInfo | null>
+      deleteBackgroundImage: (path: string) => Promise<{ success: boolean; error?: string }>
+      getBackgroundImages: () => Promise<BackgroundImageInfo[]>
     }
   }
 }

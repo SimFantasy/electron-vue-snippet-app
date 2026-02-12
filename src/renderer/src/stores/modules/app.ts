@@ -54,26 +54,32 @@ export const useAppStore = defineStore(
      */
     const setThemeBackgroundType = (type: ThemeSettings['themeBackgroundType']) => {
       themeBackgroundType.value = type
+      window.api.broadcastSettings({ themeBackgroundType: type })
     }
 
-    const setThemeColor = (color: ThemeSettings['themeColor']) => {
-      themeColor.value = color
+    const setThemeColor = (color: any) => {
+      themeColor.value = color as ThemeSettings['themeColor']
+      window.api.broadcastSettings({ themeColor: color })
     }
 
     const setBackgroundImageUrl = (url: ThemeSettings['backgroundImageUrl']) => {
       backgroundImageUrl.value = url
+      window.api.broadcastSettings({ backgroundImageUrl: url })
     }
 
-    const setBackgroundScale = (scale: ThemeSettings['backgroundSettings']['scale']) => {
-      backgroundScale.value = scale
+    const setBackgroundScale = (scale: any) => {
+      backgroundScale.value = scale as ThemeSettings['backgroundSettings']['scale']
+      window.api.broadcastSettings({ backgroundScale: scale })
     }
 
-    const setBackgroundOpacity = (opacity: ThemeSettings['backgroundSettings']['opacity']) => {
-      backgroundOpacity.value = opacity
+    const setBackgroundOpacity = (opacity: any) => {
+      backgroundOpacity.value = opacity as ThemeSettings['backgroundSettings']['opacity']
+      window.api.broadcastSettings({ backgroundOpacity: opacity })
     }
 
-    const setBackgroundBlur = (blur: ThemeSettings['backgroundSettings']['blur']) => {
-      backgroundBlur.value = blur
+    const setBackgroundBlur = (blur: any) => {
+      backgroundBlur.value = blur as ThemeSettings['backgroundSettings']['blur']
+      window.api.broadcastSettings({ backgroundBlur: blur })
     }
 
     const setCodeEditorTheme = (theme: CodeEditorSettings['codeEditorTheme']) => {
@@ -104,6 +110,8 @@ export const useAppStore = defineStore(
 
     const setShortcut = (s: AppSettings['shortcut']) => {
       shortcut.value = s
+
+      window.api.shortcut(s)
       window.api?.broadcastSettings({ shortcut: s })
     }
 
@@ -112,8 +120,8 @@ export const useAppStore = defineStore(
       window.api?.broadcastSettings({ databasePath: path })
     }
 
-    const setColorMode = (mode: ColorModeType) => {
-      store.value = mode
+    const setColorMode = (mode: any) => {
+      store.value = mode as ColorModeType
       if (mode === 'auto') {
         window.api.setColorMode('system')
       } else {

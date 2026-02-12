@@ -35,5 +35,10 @@ export const IPC_KEYS = {
   CODE_DELETE: 'code-delete',
   CODE_BATCH_DELETE: 'code-batch-delete',
   CODE_SEARCH: 'code-search',
-  CODE_GET_COUNT: 'code-get-count'
+  CODE_GET_COUNT: 'code-get-count',
+
+  // 背景图片相关
+  BACKGROUND_SELECT_IMAGE: 'background-select-image',
+  BACKGROUND_DELETE_IMAGE: 'background-delete-image',
+  BACKGROUND_GET_IMAGES: 'background-get-images'
 } as const

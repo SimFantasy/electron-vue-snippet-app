@@ -1,7 +1,9 @@
 import type { IpcMainEvent, IpcMainInvokeEvent } from 'electron'
 import type { ColorModeType, WindowNameType } from '@shared/types'
 
-import { BrowserWindow, ipcMain, nativeTheme } from 'electron'
+import { BrowserWindow, ipcMain, nativeTheme, app, dialog } from 'electron'
+import path from 'path'
+import fs from 'fs'
 
 import { IPC_KEYS } from '@shared/constants'
 
@@ -82,4 +84,87 @@ ipcMain.on(IPC_KEYS.WINDOW_SET_ALWAYS_ON_TOP, (event: IpcMainEvent, flag: boolea
 ipcMain.handle(IPC_KEYS.WINDOW_IS_MAXIMIZED, (event: IpcMainInvokeEvent) => {
   const win = getWindowByEvent(event)
   return win ? win.isMaximized() : false
+})
+
+// ========== 背景图片 ==========
+const BACKGROUNDS_DIR = path.join(app.getPath('userData'), 'images')
+
+// 确保图片目录存在
+if (!fs.existsSync(BACKGROUNDS_DIR)) {
+  fs.mkdirSync(BACKGROUNDS_DIR, { recursive: true })
+}
+
+// 选择并保存图片
+ipcMain.handle(IPC_KEYS.BACKGROUND_SELECT_IMAGE, async () => {
+  const result = await dialog.showOpenDialog({
+    properties: ['openFile'],
+    filters: [{ name: 'Images', extensions: ['jpg', 'png', 'gif', 'jpeg', 'webp'] }]
+  })
+
+  if (result.canceled || result.filePaths.length === 0) return null
+
+  const sourcePath = result.filePaths[0]
+  const ext = path.extname(sourcePath)
+  const fileName = `bg_${Date.now()}${ext}`
+  const destPath = path.join(BACKGROUNDS_DIR, fileName)
+
+  try {
+    // 复制图片到userData
+    fs.copyFileSync(sourcePath, destPath)
+    // 返回 file:// 协议路径
+    const fileUrl = `app:///${destPath.replace(/\\/g, '/')}`
+
+    return {
+      url: fileUrl,
+      name: fileName,
+      path: destPath
+    }
+  } catch (error) {
+    console.log('Failed to copy image', error)
+    return null
+  }
+})
+
+// 删除图片
+ipcMain.handle(IPC_KEYS.BACKGROUND_DELETE_IMAGE, async (_event, imagePath: string) => {
+  try {
+    // 安全校验，确保文件在images目录下
+    const resolovedPath = path.resolve(imagePath)
+    const resolvedBgDir = path.resolve(BACKGROUNDS_DIR)
+    if (!resolovedPath.startsWith(resolvedBgDir)) {
+      return { success: false, error: 'Invalid image path' }
+    }
+
+    if (fs.existsSync(resolovedPath)) {
+      fs.unlinkSync(resolovedPath)
+    }
+
+    return { success: true }
+  } catch (error) {
+    console.log('Failed to delete image', error)
+    return { success: false, error: String(error) }
+  }
+})
+
+// 获取所有背景图片列表
+ipcMain.handle(IPC_KEYS.BACKGROUND_GET_IMAGES, async () => {
+  try {
+    if (!fs.existsSync(BACKGROUNDS_DIR)) return []
+
+    const files = fs.readdirSync(BACKGROUNDS_DIR)
+
+    return files
+      .filter((file) => /\.(jpg|png|gif|jpeg|webp)$/i.test(file))
+      .map((file) => {
+        const filePath = path.join(BACKGROUNDS_DIR, file)
+        return {
+          url: `app:///${filePath.replace(/\\/g, '/')}`,
+          name: file,
+          path: filePath
+        }
+      })
+  } catch (error) {
+    console.log('Failed to get images', error)
+    return []
+  }
 })

@@ -13,6 +13,7 @@ import type {
   UpdateCodeInput,
   QueryOptions
 } from './types'
+import { join } from 'path'
 
 /**
  * 初始化数据库IPC处理器
@@ -40,11 +41,18 @@ export function initDatabaseIPC(): void {
   // 设置新的数据库路径并重新连接
   ipcMain.handle(IPC_KEYS.DB_SET_PATH, async (_event, dbPath: string) => {
     try {
+      // 如果传入的是目录路径，则自动拼接数据库文件名
+      let finalDbPath = dbPath
+      const ext = '.db'
+      if (!dbPath.endsWith(ext)) {
+        finalDbPath = join(dbPath, 'data.db')
+      }
+
       // 关闭现有连接
       await closeConnection()
 
       // 创建新连接
-      await createConnection(dbPath)
+      await createConnection(finalDbPath)
 
       // 初始化表结构
       await initTables()
