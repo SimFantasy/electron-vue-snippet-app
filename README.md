@@ -40,10 +40,10 @@
 
 ## 截图：
 
-![搜索](./screenshot/search.jpg)
-![搜索结果](./screenshot/search-result.jpg)
-![管理](./screenshot/manage.jpg)
-![设置](./screenshot/setting.jpg)
+![搜索](./screenshot/search.png)
+![搜索结果](./screenshot/search-result.png)
+![管理](./screenshot/manage.png)
+![设置](./screenshot/settings.png)
 
 ## 开发
 
