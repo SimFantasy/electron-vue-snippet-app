@@ -70,7 +70,7 @@ const schema = {
     type: 'string',
     default: 'system'
   }
-}
+} as const
 
 // 创建Store实例
 // 延迟声明 store 变量，不在模块级别实例化
@@ -109,6 +109,7 @@ export function initStoreIpc() {
 
   // 监听store 变更并广播给所以窗口
   store.onDidAnyChange((newValue, oldValue) => {
+    if (!newValue) return
     // 比较新旧值，找出变化的 key
     const changedKeys = Object.keys(newValue).filter(
       (key) =>

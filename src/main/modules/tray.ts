@@ -1,5 +1,5 @@
-import { Tray, nativeImage, app, BrowserWindow, Menu } from 'electron'
-import { join } from 'path'
+import { Tray, nativeImage, app, Menu } from 'electron'
+
 import { getWindowByName } from './window'
 import icon from '../../../resources/icon.png?asset'
 

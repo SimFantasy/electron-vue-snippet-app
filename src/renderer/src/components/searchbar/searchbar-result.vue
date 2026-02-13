@@ -12,14 +12,16 @@ const { searchResults, searchResultId, handleSelectedItem } = useSelect()
   <section
     :class="
       cn(
-        'flex-1 px-2.5 pb-2.5 h-full bg-card/90 backdrop-blur-xs rounded-b-lg overflow-hidden nodrag',
+        'flex-1 px-2.5 pb-2.5 h-screen bg-card/90 backdrop-blur-xs rounded-b-lg overflow-hidden nodrag',
         {
           hidden: !searchResults || searchResults.length === 0
         }
       )
     "
   >
-    <div class="px-2 py-1.5 w-full h-full bg-card rounded-lg overflow-y-auto">
+    <div
+      class="px-2 py-1.5 w-full h-[calc(100vh-var(--layout-search-height)-var(--spacing)*3)] bg-card rounded-lg overflow-y-auto"
+    >
       <div class="flex-y-1 h-fit">
         <template v-for="item in searchResults" :key="item.id">
           <div

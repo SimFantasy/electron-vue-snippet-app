@@ -49,7 +49,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <main ref="mainEl" class="group flex-y h-screen drag">
+  <main ref="mainEl" class="group flex-y h-fit drag">
     <SearchbarMain />
 
     <SearchbarResult />
