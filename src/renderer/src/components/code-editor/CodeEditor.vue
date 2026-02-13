@@ -185,22 +185,6 @@ watch(() => props.modelValue, updateContent)
  */
 onMounted(() => {
   createEditor()
-
-  // 监听设置窗口的设置更新
-  window.api.onSettingsUpdated((settings: any) => {
-    if (settings.codeEditorTheme && settings.codeEditorTheme !== codeEditorTheme.value) {
-      codeEditorTheme.value = settings.codeEditorTheme
-    }
-    if (settings.codeEditorFontSize && settings.codeEditorFontSize !== codeEditorFontSize.value) {
-      codeEditorFontSize.value = settings.codeEditorFontSize
-    }
-    if (
-      settings.codeEditorFontFamily &&
-      settings.codeEditorFontFamily !== codeEditorFontFamily.value
-    ) {
-      codeEditorFontFamily.value = settings.codeEditorFontFamily
-    }
-  })
 })
 
 onUnmounted(() => {

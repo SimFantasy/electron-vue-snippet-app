@@ -40,5 +40,12 @@ export const IPC_KEYS = {
   // 背景图片相关
   BACKGROUND_SELECT_IMAGE: 'background-select-image',
   BACKGROUND_DELETE_IMAGE: 'background-delete-image',
-  BACKGROUND_GET_IMAGES: 'background-get-images'
+  BACKGROUND_GET_IMAGES: 'background-get-images',
+
+  // 应用设置
+  STORE_GET: 'app-store-get',
+  STORE_GET_ALL: 'app-store-get-all',
+  STORE_SET: 'app-store-set',
+  STORE_SET_MANY: 'app-store-set-many',
+  STORE_UPDATED: 'app-store-updated'
 } as const

@@ -1,7 +1,7 @@
 import type { IpcMainEvent, IpcMainInvokeEvent } from 'electron'
 import type { ColorModeType, WindowNameType } from '@shared/types'
 
-import { BrowserWindow, ipcMain, nativeTheme, app, dialog } from 'electron'
+import { ipcMain, nativeTheme, app, dialog } from 'electron'
 import path from 'path'
 import fs from 'fs'
 
@@ -31,16 +31,6 @@ ipcMain.on(
 // 注册快捷键
 ipcMain.handle(IPC_KEYS.SHORTCUT, (_evetn: IpcMainInvokeEvent, shortcut: string) => {
   return registerSearchWindowShortcut(shortcut)
-})
-
-// 广播设置更新
-ipcMain.on(IPC_KEYS.SETTINGS_UPDATED, (event, settings) => {
-  // 广播给所有窗口
-  BrowserWindow.getAllWindows().forEach((win) => {
-    if (win.webContents !== event.sender) {
-      win.webContents.send(IPC_KEYS.SETTINGS_UPDATED, settings)
-    }
-  })
 })
 
 // 设置颜色模式

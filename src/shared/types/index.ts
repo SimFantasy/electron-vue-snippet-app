@@ -80,3 +80,22 @@ export interface BackgroundImageInfo {
   name: string
   path: string
 }
+
+// 应用设置类型
+export interface AppStoreSchemaType {
+  backgroundColor: string
+  backgroundImageUrl: string
+  backgroundOpacity: number
+  backgroundBlur: number
+  backgroundScale: number
+
+  codeEditorTheme: string
+  codeEditorFontSize: number
+  codeEditorFontFamily: string
+  codeLanguage: string[]
+  defaultLanguage: string
+
+  shortcut: string
+  databasePath: string
+  colorMode: ColorModeType
+}

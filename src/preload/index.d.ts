@@ -21,8 +21,6 @@ declare global {
       closeWindow: (name: WindowNameType) => void
       shortcut: (shortcut: string) => Promise<void>
       setIgnoreMouseEvents: (ignore: boolean, options?: { forward: boolean }) => void
-      broadcastSettings: (settings: any) => void
-      onSettingsUpdated: (callback: (settings: any) => void) => void
       setColorMode: (colorMode: ColorModeType) => void
 
       // ========== 窗口控制 ==========
@@ -186,6 +184,13 @@ declare global {
       selectBackgroundImage: () => Promise<BackgroundImageInfo | null>
       deleteBackgroundImage: (path: string) => Promise<{ success: boolean; error?: string }>
       getBackgroundImages: () => Promise<BackgroundImageInfo[]>
+
+      // ========== Store 设置相关 ==========
+      storeGet: (key: string) => Promise<any>
+      storeGetAll: () => Promise<Record<string, any>>
+      storeSet: (key: string, value: any) => Promise<boolean>
+      storeSetMany: (settings: Record<string, any>) => Promise<boolean>
+      onStoreUpdated: (callback: (key: string, value: any) => void) => void
     }
   }
 }

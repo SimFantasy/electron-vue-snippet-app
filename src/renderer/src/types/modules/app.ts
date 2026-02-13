@@ -1,35 +1,11 @@
 // 应用设置选项
+
 export interface ThemeSettings {
-  themeBackgroundType: 'color' | 'image'
-  themeColor:
-    | 'neutral'
-    | 'stone'
-    | 'zinc'
-    | 'slate'
-    | 'gray'
-    | 'red'
-    | 'orange'
-    | 'amber'
-    | 'yellow'
-    | 'lime'
-    | 'green'
-    | 'emerald'
-    | 'teal'
-    | 'cyan'
-    | 'sky'
-    | 'blue'
-    | 'indigo'
-    | 'violet'
-    | 'purple'
-    | 'fuchsia'
-    | 'pink'
-    | 'rose'
+  backgroundColor: string
   backgroundImageUrl: string
-  backgroundSettings: {
-    scale: number
-    opacity: number
-    blur: number
-  }
+  backgroundScale: number
+  backgroundOpacity: number
+  backgroundBlur: number
 }
 
 export interface AppSettings {

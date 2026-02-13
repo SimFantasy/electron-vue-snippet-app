@@ -1,13 +1,15 @@
 <script lang="ts" setup name="Settings">
 import { themeOptions, fontOptions, fontSizeOptions } from '@/components/code-editor/theme-config'
-import { themeBackgroundOptions, themeColorOptions, themeColorModeOptions } from '@/constants'
+import { themeColorModeOptions } from '@/constants'
 import { useAppStore } from '@/stores'
-import { cn } from '@/utils'
+import { useScroll } from '@vueuse/core'
 
 /**
  * Hooks
  */
 const appStore = useAppStore()
+const containerRef = useTemplateRef('containerEl')
+const { y } = useScroll(containerRef)
 
 /**
  * Actions
@@ -70,9 +72,10 @@ const handleResetDatabasePath = () => {
 
 <template>
   <WindowWrapper title="设置">
-    <div class="p-2 pt-0 w-full h-screen">
+    <div class="p-2 pt-0 w-full h-full overflow-hidden">
       <main
-        class="w-full h-[calc(100vh-var(--spacing)*14)] border border-stone-300 rounded-lg bg-card overflow-y-auto"
+        ref="containerEl"
+        class="w-full h-[calc(100vh-var(--spacing)*14)] rounded-lg border border-stone-300 bg-card overflow-y-auto"
       >
         <!-- Container -->
         <section class="flex-y-6 p-4">
@@ -89,182 +92,90 @@ const handleResetDatabasePath = () => {
 
             <USeparator />
 
-            <!-- 背景类型 -->
-            <SettingsCardItem label="背景类型" description="背景样式的类型">
-              <URadioGroup
-                v-model="appStore.themeBackgroundType"
-                :items="themeBackgroundOptions"
-                orientation="horizontal"
+            <!-- 背景颜色 -->
+            <SettingsCardItem label="背景颜色" description="选择应用背景颜色">
+              <SettingsColorPicker :scrolled="y" />
+            </SettingsCardItem>
+
+            <!-- 背景图片 -->
+            <SettingsCardItem label="背景图片" description="选择自定义背景图片">
+              <div class="flex-y-2">
+                <div class="flex-x-2">
+                  <UButton
+                    :label="appStore.backgroundImageUrl ? '更换图片' : '选择图片'"
+                    variant="outline"
+                    color="neutral"
+                    icon="tabler:photo"
+                    @click="handleSelectedBackgroundImage"
+                  />
+
+                  <UButton
+                    v-if="appStore.backgroundImageUrl"
+                    label="清除图片"
+                    icon="tabler:photo-off"
+                    variant="subtle"
+                    color="error"
+                    @click="handleClearBackgroundImage"
+                  />
+                </div>
+              </div>
+            </SettingsCardItem>
+
+            <!-- 图片预览 -->
+            <SettingsCardItem v-if="appStore.backgroundImageUrl" label="预览">
+              <img
+                :src="appStore.backgroundImageUrl"
+                class="w-48 h-32 object-cover rounded-lg border"
+                alt="背景预览"
               />
             </SettingsCardItem>
 
-            <!-- 背景颜色 -->
-            <SettingsCardItem
-              v-if="appStore.themeBackgroundType === 'color'"
-              label="背景颜色"
-              description="选择应用背景颜色"
-            >
-              <USelect
-                v-model="appStore.themeColor"
-                :items="themeColorOptions"
-                @update:model-value="appStore.setThemeColor"
-                :ui="{ content: 'min-w-fit' }"
-              >
-                <template #leading="{ modelValue }">
-                  <span
-                    v-if="modelValue"
-                    :class="
-                      cn('size-3 rounded-full', {
-                        'bg-neutral-200': modelValue === 'neutral',
-                        'bg-stone-200': modelValue === 'stone',
-                        'bg-zinc-200': modelValue === 'zinc',
-                        'bg-slate-200': modelValue === 'slate',
-                        'bg-gray-200': modelValue === 'gray',
-                        'bg-red-200': modelValue === 'red',
-                        'bg-orange-200': modelValue === 'orange',
-                        'bg-amber-200': modelValue === 'amber',
-                        'bg-yellow-200': modelValue === 'yellow',
-                        'bg-lime-200': modelValue === 'lime',
-                        'bg-green-200': modelValue === 'green',
-                        'bg-emerald-200': modelValue === 'emerald',
-                        'bg-teal-200': modelValue === 'teal',
-                        'bg-cyan-200': modelValue === 'cyan',
-                        'bg-sky-200': modelValue === 'sky',
-                        'bg-blue-200': modelValue === 'blue',
-                        'bg-indigo-200': modelValue === 'indigo',
-                        'bg-violet-200': modelValue === 'violet',
-                        'bg-purple-200': modelValue === 'purple',
-                        'bg-fuchsia-200': modelValue === 'fuchsia',
-                        'bg-pink-200': modelValue === 'pink',
-                        'bg-rose-200': modelValue === 'rose'
-                      })
-                    "
-                  ></span>
-                </template>
-
-                <template #item="{ item }">
-                  <div class="flex-x-2 h-4">
-                    <span
-                      :class="
-                        cn('size-3 rounded-full', {
-                          'bg-neutral-200': item.value === 'neutral',
-                          'bg-stone-200': item.value === 'stone',
-                          'bg-zinc-200': item.value === 'zinc',
-                          'bg-slate-200': item.value === 'slate',
-                          'bg-gray-200': item.value === 'gray',
-                          'bg-red-200': item.value === 'red',
-                          'bg-orange-200': item.value === 'orange',
-                          'bg-amber-200': item.value === 'amber',
-                          'bg-yellow-200': item.value === 'yellow',
-                          'bg-lime-200': item.value === 'lime',
-                          'bg-green-200': item.value === 'green',
-                          'bg-emerald-200': item.value === 'emerald',
-                          'bg-teal-200': item.value === 'teal',
-                          'bg-cyan-200': item.value === 'cyan',
-                          'bg-sky-200': item.value === 'sky',
-                          'bg-blue-200': item.value === 'blue',
-                          'bg-indigo-200': item.value === 'indigo',
-                          'bg-violet-200': item.value === 'violet',
-                          'bg-purple-200': item.value === 'purple',
-                          'bg-fuchsia-200': item.value === 'fuchsia',
-                          'bg-pink-200': item.value === 'pink',
-                          'bg-rose-200': item.value === 'rose'
-                        })
-                      "
-                    ></span>
-                    <span>{{ item.label }}</span>
-                  </div>
-                </template>
-              </USelect>
+            <!-- 图片效果设置 -->
+            <SettingsCardItem label="透明度" description="调整背景图片透明度">
+              <div class="flex-x-2">
+                <span class="text-sm text-gray-500">
+                  {{ Math.round(appStore.backgroundOpacity * 100) }}%
+                </span>
+                <USlider
+                  v-model="appStore.backgroundOpacity"
+                  :min="0.1"
+                  :max="1"
+                  :step="0.1"
+                  @update:model-value="appStore.setBackgroundOpacity"
+                  class="w-20"
+                />
+              </div>
             </SettingsCardItem>
 
-            <template v-if="appStore.themeBackgroundType === 'image'">
-              <!-- 背景图片 -->
-              <SettingsCardItem label="背景图片" description="选择自定义背景图片">
-                <div class="flex-y-2">
-                  <!-- <div
-                    v-if="appStore.backgroundImageUrl"
-                    class="w-full h-12 rounded-lg overflow-hidden"
-                  >
-                    <img :src="appStore.backgroundImageUrl" class="size-full object-cover" />
-                  </div> -->
-                  <div class="flex-x-2">
-                    <UButton
-                      :label="appStore.backgroundImageUrl ? '更换图片' : '选择图片'"
-                      variant="outline"
-                      color="neutral"
-                      icon="tabler:photo"
-                      @click="handleSelectedBackgroundImage"
-                    />
-
-                    <UButton
-                      v-if="appStore.backgroundImageUrl"
-                      label="清除图片"
-                      icon="tabler:photo-off"
-                      variant="subtle"
-                      color="error"
-                      @click="handleClearBackgroundImage"
-                    />
-                  </div>
-                </div>
-              </SettingsCardItem>
-
-              <!-- 图片预览 -->
-              <SettingsCardItem v-if="appStore.backgroundImageUrl" label="预览">
-                <img
-                  :src="appStore.backgroundImageUrl"
-                  class="w-48 h-32 object-cover rounded-lg border"
-                  alt="背景预览"
+            <SettingsCardItem label="模糊度" description="调整背景图片模糊效果">
+              <div class="flex-x-2">
+                <span class="text-sm text-gray-500">{{ appStore.backgroundBlur }}px</span>
+                <USlider
+                  v-model="appStore.backgroundBlur"
+                  :min="0"
+                  :max="20"
+                  :step="1"
+                  @update:model-value="appStore.setBackgroundBlur"
+                  class="w-20"
                 />
-              </SettingsCardItem>
+              </div>
+            </SettingsCardItem>
 
-              <!-- 图片效果设置 -->
-              <SettingsCardItem label="透明度" description="调整背景图片透明度">
-                <div class="flex-x-2">
-                  <span class="text-sm text-gray-500">
-                    {{ Math.round(appStore.backgroundOpacity * 100) }}%
-                  </span>
-                  <USlider
-                    v-model="appStore.backgroundOpacity"
-                    :min="0.1"
-                    :max="1"
-                    :step="0.1"
-                    @update:model-value="appStore.setBackgroundOpacity"
-                    class="w-20"
-                  />
-                </div>
-              </SettingsCardItem>
-
-              <SettingsCardItem label="模糊度" description="调整背景图片模糊效果">
-                <div class="flex-x-2">
-                  <span class="text-sm text-gray-500">{{ appStore.backgroundBlur }}px</span>
-                  <USlider
-                    v-model="appStore.backgroundBlur"
-                    :min="0"
-                    :max="20"
-                    :step="1"
-                    @update:model-value="appStore.setBackgroundBlur"
-                    class="w-20"
-                  />
-                </div>
-              </SettingsCardItem>
-
-              <SettingsCardItem label="缩放" description="调整背景图片缩放比例">
-                <div class="flex-x-2">
-                  <span class="text-sm text-gray-500">
-                    {{ Math.round(appStore.backgroundScale * 100) }}%
-                  </span>
-                  <USlider
-                    v-model="appStore.backgroundScale"
-                    :min="1"
-                    :max="2"
-                    :step="0.1"
-                    @update:model-value="appStore.setBackgroundScale"
-                    class="w-20"
-                  />
-                </div>
-              </SettingsCardItem>
-            </template>
+            <SettingsCardItem label="缩放" description="调整背景图片缩放比例">
+              <div class="flex-x-2">
+                <span class="text-sm text-gray-500">
+                  {{ Math.round(appStore.backgroundScale * 100) }}%
+                </span>
+                <USlider
+                  v-model="appStore.backgroundScale"
+                  :min="1"
+                  :max="2"
+                  :step="0.1"
+                  @update:model-value="appStore.setBackgroundScale"
+                  class="w-20"
+                />
+              </div>
+            </SettingsCardItem>
           </SettingsCard>
 
           <!-- Code Editor -->

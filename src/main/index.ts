@@ -8,6 +8,8 @@ import { initDatabaseIPC } from './modules/db/ipc'
 import { initTables, setupCategoryDeleteTrigger } from './modules/db/table'
 import { seedData } from './modules/db/seed'
 import { initProtocol } from './modules/protocol'
+import { initStoreIpc } from './modules/store'
+import { createTray, destroyTray } from './modules/tray'
 
 // 初始化数据库IPC
 initDatabaseIPC()
@@ -23,6 +25,12 @@ app.whenReady().then(async () => {
   } catch (error) {
     console.error('数据库初始化失败:', error)
   }
+
+  // 初始化Store
+  initStoreIpc()
+
+  // 创建系统托盘
+  createTray()
 
   // 先注册协议（在创建窗口之前）
   initProtocol()
@@ -54,4 +62,8 @@ app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit()
   }
+})
+
+app.on('quit', () => {
+  destroyTray()
 })

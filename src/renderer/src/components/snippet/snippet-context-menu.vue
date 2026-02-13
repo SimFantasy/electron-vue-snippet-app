@@ -15,7 +15,8 @@ const { code } = defineProps<{
  * Hooks
  */
 const { categories } = useCategory()
-const { currrentCategoryId, snippetForm, snippetDeleteLoading, handleSnippetDelete } = useSnippet()
+const { currrentCategoryId, snippetDeleteLoading, handleSnippetDelete, handleSnippetUpdate } =
+  useSnippet()
 
 /**
  * States
@@ -31,9 +32,7 @@ const items = ref<ContextMenuItem[]>([
     children: categories.value?.map((item) => ({
       label: item.name,
       checked: item.id === currrentCategoryId.value,
-      onSelect: () => {
-        snippetForm.value.category_id = Number(item.id)
-      }
+      onSelect: () => handleUpdateCategory(Number(item.id))
     }))
   },
   {
@@ -57,6 +56,15 @@ const handleDeleteConfirm = () => {
 const handleDeleteSnippet = async () => {
   if (code && code.id) {
     await handleSnippetDelete(0, code.id as number)
+  }
+}
+
+// 修改代码片段分类
+const handleUpdateCategory = async (id: number) => {
+  if (code && code.id) {
+    await handleSnippetUpdate(0, code.id, {
+      category_id: Number(id)
+    })
   }
 }
 </script>

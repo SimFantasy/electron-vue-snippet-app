@@ -9,7 +9,7 @@ export const options: CustomWindowOptions = {
     id: 0,
     options: {
       initShow: true,
-      openDevTools: true
+      openDevTools: false
       // hash: ''
     }
   },

@@ -23,11 +23,6 @@ const api = {
     ipcRenderer.send(IPC_KEYS.IGNORE_MOUSE_EVENT, ignore, options),
   /** 快捷键 */
   shortcut: (shortcut: string) => ipcRenderer.invoke(IPC_KEYS.SHORTCUT, shortcut),
-  /** 发送更新全局广播 */
-  broadcastSettings: (settings: any) => ipcRenderer.send(IPC_KEYS.SETTINGS_UPDATED, settings),
-  /** 接收更新全局广播 */
-  onSettingsUpdated: (callback: (settings: any) => void) =>
-    ipcRenderer.on(IPC_KEYS.SETTINGS_UPDATED, (_event, settings) => callback(settings)),
   /* 设置颜色模式 */
   setColorMode: (colorMode: ColorModeType) => ipcRenderer.invoke(IPC_KEYS.COLOR_MODE, colorMode),
 
@@ -93,7 +88,21 @@ const api = {
   selectBackgroundImage: () => ipcRenderer.invoke(IPC_KEYS.BACKGROUND_SELECT_IMAGE),
   deleteBackgroundImage: (path: string) =>
     ipcRenderer.invoke(IPC_KEYS.BACKGROUND_DELETE_IMAGE, path),
-  getBackgroundImage: () => ipcRenderer.invoke(IPC_KEYS.BACKGROUND_GET_IMAGES)
+  getBackgroundImage: () => ipcRenderer.invoke(IPC_KEYS.BACKGROUND_GET_IMAGES),
+
+  // ========== Store 设置相关 ==========
+  /** 获取单个设置 */
+  storeGet: (key: string) => ipcRenderer.invoke(IPC_KEYS.STORE_GET, key),
+  /** 获取所有设置 */
+  storeGetAll: () => ipcRenderer.invoke(IPC_KEYS.STORE_GET_ALL),
+  /** 设置单个设置 */
+  storeSet: (key: string, value: any) => ipcRenderer.invoke(IPC_KEYS.STORE_SET, key, value),
+  /** 批量设置 */
+  storeSetMany: (settings: Record<string, any>) =>
+    ipcRenderer.invoke(IPC_KEYS.STORE_SET_MANY, settings),
+  /** 监听设置变更 */
+  onStoreUpdated: (callback: (key: string, value: any) => void) =>
+    ipcRenderer.on(IPC_KEYS.STORE_UPDATED, (_event, key, value) => callback(key, value))
 }
 
 // 使用 `contextBridge` API 将 Electron API 暴露给
